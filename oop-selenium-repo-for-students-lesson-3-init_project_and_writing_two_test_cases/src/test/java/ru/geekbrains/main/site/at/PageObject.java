@@ -1,0 +1,31 @@
+package ru.geekbrains.main.site.at;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+public class PageObject {
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+
+    public PageObject(WebDriver driver){
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 15);
+        PageFactory.initElements(driver, this);
+    }
+
+           protected String getElementText(WebElement element){
+        wait.until(ExpectedConditions.visibilityOf(element));
+        return element.getText();
+    }
+
+    protected void checkText(WebElement element, String expectedText){
+        assertThat(getElementText(element), equalToCompressingWhiteSpace(expectedText));
+    }
+}
+
